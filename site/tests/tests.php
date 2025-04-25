@@ -3,8 +3,8 @@
 require_once __DIR__ . '/testframework.php';
 
 require_once __DIR__ . '/../config.php';
-require_once __DIR__ . '/../site/modules/database.php';
-require_once __DIR__ . '/../site/modules/page.php';
+require_once '/var/www/html/site/modules/database.php';
+require_once '/var/www/html/site/modules/page.php';
 
 $tests = new TestFramework();
 
