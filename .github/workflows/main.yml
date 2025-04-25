@@ -24,7 +24,7 @@ jobs:
 
       # Шаг 4: Копирование тестов в контейнер
       - name: Copy tests to the container
-        run: docker cp ./tests container:/var/www/html
+        run: docker cp ./site/tests container:/var/www/html
 
       # Шаг 5: Запуск контейнера
       - name: Up the container
