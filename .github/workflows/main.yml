@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main  # Задача запускается при пуше в ветку main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Используем последний образ Ubuntu
+
+    steps:
+      # Шаг 1: Клонирование репозитория
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Шаг 2: Сборка Docker образа
+      - name: Build the Docker image
+        run: docker build -t containers08 .
+
+      # Шаг 3: Создание контейнера
+      - name: Create `container`
+        run: docker create --name container --volume database:/var/www/db containers08
+
+      # Шаг 4: Копирование тестов в контейнер
+      - name: Copy tests to the container
+        run: docker cp ./tests container:/var/www/html
+
+      # Шаг 5: Запуск контейнера
+      - name: Up the container
+        run: docker start container
+
+      # Шаг 6: Запуск тестов в контейнере
+      - name: Run tests
+        run: docker exec container php /var/www/html/tests/tests.php
+
+      # Шаг 7: Остановка контейнера
+      - name: Stop the container
+        run: docker stop container
+
+      # Шаг 8: Удаление контейнера
+      - name: Remove the container
+        run: docker rm container
